@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-date
+      author: Ivan
+      changes:
+        - sqlFile:
+            path: db/migration/insert-date.sql
+            relativeToChangelogFile: false
