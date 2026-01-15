@@ -1,6 +1,7 @@
 package com.project.taskObjectMapper.service;
 
 import com.project.taskObjectMapper.entity.Product;
+import com.project.taskObjectMapper.exception.ExistProductException;
 import com.project.taskObjectMapper.exception.NotFoundProductException;
 import com.project.taskObjectMapper.repository.ProductRepository;
 import jakarta.transaction.Transactional;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -21,19 +21,20 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    @Transactional
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
-    @Transactional
-    public Optional<Product> getProductById(@Valid Integer id) {
-        return Optional.ofNullable(productRepository.findById(id)
-                .orElseThrow(() -> new NotFoundProductException("Product not found with id: " + id)));
+    public Product getProductById(@Valid Integer id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new NotFoundProductException("Product not found with id: " + id));
     }
 
     @Transactional
     public void addNewProduct(@Valid Product product) {
+        if (productRepository.existsById(product.getId())){
+            throw new ExistProductException("The product already exists with id " + product.getId());
+        }
         productRepository.save(product);
     }
 

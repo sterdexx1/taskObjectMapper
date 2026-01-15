@@ -1,7 +1,6 @@
 package com.project.taskObjectMapper.controller;
 
 import com.project.taskObjectMapper.entity.Customer;
-import com.project.taskObjectMapper.exception.ExistCustomerException;
 import com.project.taskObjectMapper.json.CustomerJson;
 import com.project.taskObjectMapper.service.CustomerService;
 import jakarta.validation.Valid;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class CustomerController {
 
 
@@ -34,16 +34,13 @@ public class CustomerController {
 
     @GetMapping("/customers/{id}")
     public ResponseEntity<String> getCustomerById(@PathVariable Integer id) {
-        Customer customer = customerService.getCustomerById(id).get();
+        Customer customer = customerService.getCustomerById(id);
         return new ResponseEntity<>(CustomerJson.toJson(customer), HttpStatus.OK);
     }
 
     @PostMapping("/customers")
     public ResponseEntity<String> addNewCustomer(@RequestBody @Valid String customerJson) {
         Customer customer = CustomerJson.fromJson(customerJson);
-        if (customerService.getCustomerById(customer.getId()).isPresent()) {
-            throw new ExistCustomerException("The customer already exists with id " + customer.getId());
-        }
         customerService.addNewCustomer(customer);
         return new ResponseEntity<>("Customer: " + customer.getName() + " is added", HttpStatus.OK);
     }

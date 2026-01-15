@@ -23,23 +23,21 @@ public class Product {
     @Column(name = "id")
     private Integer id;
     @Column(name = "name")
-    @NotBlank(message = "Field name couldn't be empty")
+    @NotBlank(message = "Name couldn't be empty")
     private String name;
     @Column(name = "description")
-    @NotBlank(message = "Field description couldn't be empty")
+    @NotBlank(message = "Description couldn't be empty")
     private String description;
     @Column(name = "price")
-    @NotBlank(message = "Field price couldn't be empty")
+    @NotBlank(message = "Price couldn't be empty")
     @Positive(message = "Price must be more than 0")
     private BigDecimal price;
     @Column(name = "amount")
-    @NotBlank(message = "Field amount couldn't be empty")
+    @NotBlank(message = "Amount couldn't be empty")
     @Positive(message = "Amount must be more than 0")
     private Integer amount;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH,
-            CascadeType.PERSIST, CascadeType.REFRESH},
-            fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     @JsonBackReference
     private Order order;

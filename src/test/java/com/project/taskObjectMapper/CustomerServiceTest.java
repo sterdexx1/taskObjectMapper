@@ -32,13 +32,13 @@ public class CustomerServiceTest {
                 "ivanov@example.com","+79999999999",null);
 
         when(customerRepository.findById(1)).thenReturn(Optional.of(customer));
-        Optional<Customer> result = customerService.getCustomerById(1);
-        assertEquals(1, result.get().getId());
-        assertEquals("Ivan", result.get().getName());
-        assertEquals("Ivanov", result.get().getSurname());
-        assertEquals("ivanov@example.com", result.get().getEmail());
-        assertEquals("+79999999999", result.get().getNumber());
-        assertNull(result.get().getOrders());
+        Customer result = customerService.getCustomerById(1);
+        assertEquals(1, result.getId());
+        assertEquals("Ivan", result.getName());
+        assertEquals("Ivanov", result.getSurname());
+        assertEquals("ivanov@example.com", result.getEmail());
+        assertEquals("+79999999999", result.getNumber());
+        assertNull(result.getOrders());
     }
 
     @Test

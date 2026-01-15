@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -85,7 +84,7 @@ public class ProductControllerTest {
         Product product = new Product(1, "Notebook Lenovo IdeaPad",
                 "15.6, 8GB RAM, 256GB SSD",
                 BigDecimal.valueOf(24999.99), 1, null);
-        when(productService.getProductById(1)).thenReturn(Optional.of(product));
+        when(productService.getProductById(1)).thenReturn(product);
 
         mockMvc.perform(get("/products/1"))
                 .andExpect(status().isOk())

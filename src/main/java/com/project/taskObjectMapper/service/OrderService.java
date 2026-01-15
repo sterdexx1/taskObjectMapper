@@ -1,6 +1,7 @@
 package com.project.taskObjectMapper.service;
 
 import com.project.taskObjectMapper.entity.Order;
+import com.project.taskObjectMapper.exception.ExistOrderException;
 import com.project.taskObjectMapper.exception.NotFoundOrderException;
 import com.project.taskObjectMapper.repository.OrderRepository;
 import jakarta.transaction.Transactional;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -21,19 +21,20 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    @Transactional
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
-    @Transactional
-    public Optional<Order> getOrderById(@Valid Integer id) {
-        return Optional.ofNullable(orderRepository.findById(id)
-                .orElseThrow(() -> new NotFoundOrderException("Order not found with id: " + id)));
+    public Order getOrderById(@Valid Integer id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new NotFoundOrderException("Order not found with id: " + id));
     }
 
     @Transactional
     public void addNewOrder(@Valid Order order) {
+        if (orderRepository.existsById(order.getId())){
+            throw new ExistOrderException("The order already exists with id " + order.getId());
+        }
         orderRepository.save(order);
     }
 

@@ -1,6 +1,7 @@
 package com.project.taskObjectMapper.service;
 
 import com.project.taskObjectMapper.entity.Customer;
+import com.project.taskObjectMapper.exception.ExistCustomerException;
 import com.project.taskObjectMapper.exception.NotFoundCustomerException;
 import com.project.taskObjectMapper.repository.CustomerRepository;
 import jakarta.transaction.Transactional;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -21,19 +21,20 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    @Transactional
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
 
-    @Transactional
-    public Optional<Customer> getCustomerById(@Valid Integer id) {
-        return Optional.ofNullable(customerRepository.findById(id)
-                .orElseThrow(() -> new NotFoundCustomerException("Customer not found with id: " + id)));
+    public Customer getCustomerById(@Valid Integer id) {
+        return customerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundCustomerException("Customer not found with id: " + id));
     }
 
     @Transactional
     public void addNewCustomer(@Valid Customer customer) {
+        if (customerRepository.existsById(customer.getId())){
+            throw new ExistCustomerException("The customer already exists with id " + customer.getId());
+        }
         customerRepository.save(customer);
     }
 

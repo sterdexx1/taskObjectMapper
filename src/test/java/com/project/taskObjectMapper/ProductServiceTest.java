@@ -34,13 +34,13 @@ public class ProductServiceTest {
                 BigDecimal.valueOf(24999.99), 1, null);
 
         when(productRepository.findById(1)).thenReturn(Optional.of(product));
-        Optional<Product> result = productService.getProductById(1);
-        assertEquals(1, result.get().getId());
-        assertEquals("Notebook Lenovo IdeaPad", result.get().getName());
-        assertEquals("15.6, 8GB RAM, 256GB SSD", result.get().getDescription());
-        assertEquals(BigDecimal.valueOf(24999.99), result.get().getPrice());
-        assertEquals(1, result.get().getAmount());
-        assertNull(result.get().getOrder());
+        Product result = productService.getProductById(1);
+        assertEquals(1, result.getId());
+        assertEquals("Notebook Lenovo IdeaPad", result.getName());
+        assertEquals("15.6, 8GB RAM, 256GB SSD", result.getDescription());
+        assertEquals(BigDecimal.valueOf(24999.99), result.getPrice());
+        assertEquals(1, result.getAmount());
+        assertNull(result.getOrder());
     }
 
     @Test

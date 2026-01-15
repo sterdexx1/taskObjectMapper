@@ -1,7 +1,6 @@
 package com.project.taskObjectMapper.controller;
 
 import com.project.taskObjectMapper.entity.Product;
-import com.project.taskObjectMapper.exception.ExistProductException;
 import com.project.taskObjectMapper.json.ProductJson;
 import com.project.taskObjectMapper.service.ProductService;
 import jakarta.validation.Valid;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class ProductController {
 
     private final ProductService productService;
@@ -33,16 +33,13 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     public ResponseEntity<String> getProductById(@PathVariable Integer id) {
-        Product product = productService.getProductById(id).get();
+        Product product = productService.getProductById(id);
         return new ResponseEntity<>(ProductJson.toJson(product), HttpStatus.OK);
     }
 
     @PostMapping("/products")
     public ResponseEntity<String> addNewProduct(@RequestBody @Valid String productJson) {
         Product product = ProductJson.fromJson(productJson);
-        if (productService.getProductById(product.getId()).isPresent()) {
-            throw new ExistProductException("The product already exists with id " + product.getId());
-        }
         productService.addNewProduct(product);
         return new ResponseEntity<>("Product: " + product.getName() + " is added", HttpStatus.OK);
     }

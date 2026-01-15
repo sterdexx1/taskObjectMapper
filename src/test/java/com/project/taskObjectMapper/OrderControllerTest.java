@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -87,7 +86,7 @@ public class OrderControllerTest {
         Order order = new Order(1, "Moscow, st. Pushkina, 10", BigDecimal.valueOf(27598.99),
                 OrderStatus.OK, LocalDateTime.of(2025,03,
                 15,10,30,00), null, null);
-        when(orderService.getOrderById(1)).thenReturn(Optional.of(order));
+        when(orderService.getOrderById(1)).thenReturn(order);
 
         mockMvc.perform(get("/orders/1"))
                 .andExpect(status().isOk())

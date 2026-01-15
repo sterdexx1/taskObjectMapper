@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -82,7 +81,7 @@ public class CustomerControllerTest {
     public void testGetCustomerById() throws Exception {
         Customer customer = new Customer(3, "Alexey", "Sidorov",
                 "alexey.sidorov@example.com", "+79991112233", null);
-        when(customerService.getCustomerById(1)).thenReturn(Optional.of(customer));
+        when(customerService.getCustomerById(1)).thenReturn(customer);
 
         mockMvc.perform(get("/customers/1"))
                 .andExpect(status().isOk())

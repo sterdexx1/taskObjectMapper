@@ -36,15 +36,15 @@ public class OrderServiceTest {
                 15,10,30,00), null, null);
 
         when(orderRepository.findById(1)).thenReturn(Optional.of(order));
-        Optional<Order> result = orderService.getOrderById(1);
-        assertEquals(1, result.get().getId());
-        assertEquals("Moscow, st. Pushkina, 10", result.get().getAddress());
-        assertEquals(BigDecimal.valueOf(27598.99), result.get().getCost());
-        assertEquals(OrderStatus.OK, result.get().getStatus());
+        Order result = orderService.getOrderById(1);
+        assertEquals(1, result.getId());
+        assertEquals("Moscow, st. Pushkina, 10", result.getAddress());
+        assertEquals(BigDecimal.valueOf(27598.99), result.getCost());
+        assertEquals(OrderStatus.OK, result.getStatus());
         assertEquals(LocalDateTime.of(2025,03,
-                15,10,30,00), result.get().getOrder_data());
-        assertNull(result.get().getProducts());
-        assertNull(result.get().getCustomer());
+                15,10,30,00), result.getOrder_data());
+        assertNull(result.getProducts());
+        assertNull(result.getCustomer());
     }
 
     @Test

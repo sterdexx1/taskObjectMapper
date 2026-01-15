@@ -1,7 +1,6 @@
 package com.project.taskObjectMapper.controller;
 
 import com.project.taskObjectMapper.entity.Order;
-import com.project.taskObjectMapper.exception.ExistOrderException;
 import com.project.taskObjectMapper.json.OrderJson;
 import com.project.taskObjectMapper.service.OrderService;
 import jakarta.validation.Valid;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class OrderController {
 
     private final OrderService orderService;
@@ -33,16 +33,13 @@ public class OrderController {
 
     @GetMapping("/orders/{id}")
     public ResponseEntity<String> getOrderById(@PathVariable Integer id) {
-        Order order = orderService.getOrderById(id).get();
+        Order order = orderService.getOrderById(id);
         return new ResponseEntity<>(OrderJson.toJson(order), HttpStatus.OK);
     }
 
     @PostMapping("/orders")
     public ResponseEntity<String> addNewOrder(@RequestBody @Valid String orderJson) {
         Order order = OrderJson.fromJson(orderJson);
-        if (orderService.getOrderById(order.getId()).isPresent()) {
-            throw new ExistOrderException("The order already exists with id " + order.getId());
-        }
         orderService.addNewOrder(order);
         return new ResponseEntity<>("Order: " + order.getId() + " is added", HttpStatus.OK);
     }

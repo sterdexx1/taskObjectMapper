@@ -27,18 +27,18 @@ public class Order {
     @Column(name = "id")
     private Integer id;
     @Column(name = "address")
-    @NotBlank(message = "Field address couldn't be empty")
+    @NotBlank(message = "Address couldn't be empty")
     private String address;
     @Column(name = "cost")
-    @NotBlank(message = "Field cost couldn't be empty")
+    @NotBlank(message = "Cost couldn't be empty")
     @Positive(message = "Cost must be more than 0")
     private BigDecimal cost;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    @NotBlank(message = "Field status couldn't be empty")
+    @NotBlank(message = "Status couldn't be empty")
     private OrderStatus status;
     @Column(name = "order_data")
-    @NotBlank(message = "Field order data couldn't be empty")
+    @NotBlank(message = "Order data couldn't be empty")
     private LocalDateTime order_data;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH,
@@ -49,7 +49,6 @@ public class Order {
     private Customer customer;
 
     @OneToMany(mappedBy = "order",
-            cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Product> products;

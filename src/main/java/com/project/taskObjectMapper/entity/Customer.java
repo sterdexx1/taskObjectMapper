@@ -25,17 +25,17 @@ public class Customer {
     @Column(name = "id")
     private Integer id;
     @Column(name = "name")
-    @NotBlank(message = "Field name couldn't be empty")
+    @NotBlank(message = "Name couldn't be empty")
     private String name;
     @Column(name = "surname")
-    @NotBlank(message = "Field surname couldn't be empty")
+    @NotBlank(message = "Surname couldn't be empty")
     private String surname;
     @Column(name = "email")
-    @NotBlank(message = "Field email couldn't be empty")
+    @NotBlank(message = "Email couldn't be empty")
     @Email
     private String email;
     @Column(name = "number")
-    @NotBlank(message = "Field number couldn't be empty")
+    @NotBlank(message = "Number couldn't be empty")
     @Pattern(regexp = "\\+\\d{1,11}", message = "phone number must be in format: +XXXXXXXXXXX")
     private String number;
 
