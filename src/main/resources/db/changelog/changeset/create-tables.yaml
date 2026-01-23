@@ -1,0 +1,132 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-customer
+      author: Ivan
+      changes:
+        - createTable:
+            tableName: customer
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: surname
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: number
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: create-table-order
+      author: Ivan
+      changes:
+        - createTable:
+            tableName: order_table
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: address
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cost
+                  type: DECIMAL(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: ENUM('OK','WAIT')
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_data
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: customer_id
+                  type: INT
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            constraintName: fk_order_customer
+            baseTableName: order_table
+            baseColumnNames: customer_id
+            referencedTableName: customer
+            referencedColumnNames: id
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+
+  - changeSet:
+      id: create-table-product
+      author: Ivan
+      changes:
+        - createTable:
+            tableName: product
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: DECIMAL(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: order_id
+                  type: INT
+                  constraints:
+                    nullable: true
+
+        - addForeignKeyConstraint:
+            constraintName: fk_product_order
+            baseTableName: product
+            baseColumnNames: order_id
+            referencedTableName: order_table
+            referencedColumnNames: id
+            onDelete: SET NULL
+            onUpdate: NO ACTION
